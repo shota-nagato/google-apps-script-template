@@ -1,7 +1,7 @@
-import { sample } from "./functions/sample"
+import { sample } from './functions/sample'
 
 declare const global: {
-  [key: string]: any;
-};
+  [key: string]: unknown
+}
 
 global.sample = sample
