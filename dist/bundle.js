@@ -6,7 +6,10 @@ function sample() {
 (() => {
   // src/scripts/sample.ts
   function sample() {
-    console.log("sample");
+    const message = "sample";
+    const numbers = [1, 2, 3];
+    const doubled = numbers.map((n) => n * 2);
+    console.log(`Message: ${message}, Doubled: ${doubled.join(", ")}`);
   }
 
   // src/index.ts
