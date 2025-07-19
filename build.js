@@ -4,7 +4,7 @@ import { GasPlugin } from 'esbuild-gas-plugin';
 esbuild.build({
   entryPoints: ['src/index.ts'],
   bundle: true,
-  outfile: 'dist/bundle.js',
+  outfile: 'dist/index.js',
   plugins: [GasPlugin]
 }).catch((e) => {
   console.error(e)
