@@ -6,11 +6,9 @@ function sample() {
 (() => {
   // src/scripts/sample.ts
   function sample() {
-    console.log("---sample---!!!!!!!!!!!!!");
+    console.log("sample");
   }
 
   // src/index.ts
-  global.sample = () => {
-    sample();
-  };
+  global.sample = sample;
 })();

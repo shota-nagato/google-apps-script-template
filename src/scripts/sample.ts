@@ -1,3 +1,3 @@
-export function sample() {
-  console.log("---sample---!!!!!!!!!!!!!");
+export function sample(): void {
+  console.log("sample")
 }

@@ -4,6 +4,4 @@ declare const global: {
   [key: string]: any;
 };
 
-global.sample = () => {
-  sample()
-}
+global.sample = sample
