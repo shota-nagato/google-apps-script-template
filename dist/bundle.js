@@ -1,16 +1,16 @@
 var global = this;
 // src/index.ts
-function run() {
+function sample() {
 }
 "use strict";
 (() => {
-  // src/sample.ts
+  // src/scripts/sample.ts
   function sample() {
-    console.log("---sample---!!!!!");
+    console.log("---sample---!!!!!!!!!!!!!");
   }
 
   // src/index.ts
-  global.run = () => {
+  global.sample = () => {
     sample();
   };
 })();
