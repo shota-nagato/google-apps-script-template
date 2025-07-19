@@ -1,6 +1,5 @@
 # clasp
 .clasp.json
-appsscript.json
 
 # dependencies
 /node_modules

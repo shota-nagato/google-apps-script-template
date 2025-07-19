@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node build.js",
+    "push": "clasp push",
+    "deploy": "pnpm build && pnpm push"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,8 @@
   "devDependencies": {
     "@google/clasp": "3.0.6-alpha",
     "@types/google-apps-script": "^1.0.99",
+    "esbuild": "^0.25.7",
+    "esbuild-gas-plugin": "^0.9.0",
     "typescript": "^5.8.3"
   }
 }
