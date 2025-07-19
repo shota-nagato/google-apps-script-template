@@ -1,4 +1,4 @@
-import { sample } from "./scripts/sample"
+import { sample } from "../scripts/sample"
 
 declare const global: {
   [key: string]: any;

@@ -1,5 +1,5 @@
 var global = this;
-// src/index.ts
+// src/files/index.ts
 function sample() {
 }
 "use strict";
@@ -12,6 +12,6 @@ function sample() {
     console.log(`Message: ${message}, Doubled: ${doubled.join(", ")}`);
   }
 
-  // src/index.ts
+  // src/files/index.ts
   global.sample = sample;
 })();
