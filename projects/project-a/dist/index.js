@@ -1,10 +1,10 @@
 var global = this;
-// src/files/index.ts
+// projects/project-a/src/index.ts
 function sample() {
 }
 "use strict";
 (() => {
-  // src/scripts/sample.ts
+  // projects/project-a/src/functions/sample.ts
   function sample() {
     const message = "sample";
     const numbers = [1, 2, 3];
@@ -12,6 +12,6 @@ function sample() {
     console.log(`Message: ${message}, Doubled: ${doubled.join(", ")}`);
   }
 
-  // src/files/index.ts
+  // projects/project-a/src/index.ts
   global.sample = sample;
 })();

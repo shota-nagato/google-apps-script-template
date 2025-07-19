@@ -1,5 +1,5 @@
-import { bbb1Function, processData } from "../scripts/bbb1";
-import { bbb2Function, validateInput } from "../scripts/bbb2";
+import { bbb1Function, processData } from "./functions/bbb1";
+import { bbb2Function, validateInput } from "./functions/bbb2";
 
 declare const global: {
   [key: string]: any;
