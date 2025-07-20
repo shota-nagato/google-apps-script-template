@@ -1,74 +1,83 @@
 # GAS Multi-Project Management
 
-複数の Google Apps Script プロジェクトを効率的に管理するための開発環境です。
+複数のGoogleAppsScriptプロジェクト・ファイルをGitHub管理する
 
 ## 📁 プロジェクト構成
 
 ```
 projects/
-├── project-a/              # プロジェクトA（既存機能）
+├── sample-project/         # サンプルプロジェクト
 │   ├── src/
-│   │   ├── aaa.ts          # AAAグループ機能
-│   │   ├── bbb.ts          # BBBグループ機能
-│   │   ├── index.ts        # サンプル機能
+│   │   ├── sample1.ts      # function1をGASで実行できるように定義 GASプロジェクトでsample1.gsとしてデプロイされる
+│   │   ├── sample2.ts      # function2をGASで実行できるように定義 GASプロジェクトでsample2.gsとしてデプロイされる
 │   │   └── functions/      # 個別機能ファイル
-│   │       ├── aaa1.ts
-│   │       ├── aaa2.ts
-│   │       ├── bbb1.ts
-│   │       ├── bbb2.ts
-│   │       └── sample.ts
+│   │       ├── function1.ts
+│   │       └── function2.ts
 │   ├── dist/               # ビルド出力
-│   │   ├── aaa.js
-│   │   ├── bbb.js
-│   │   └── index.js
-│   └── .clasp.json
+│   │   ├── appsscript.json # プロジェクト固有の設定ファイル
+│   │   ├── sample1.js
+│   │   └── sample2.js
+│   ├── .clasp.json         # プロジェクトのIDなどを管理 Git管理していないので、新規作成or担当者にScriptIDを確認
+│   ├── .clasp.json.example # .clasp.jsonの設定例
+│   └── REAMDME.md          # プロジェクトの説明
 │
-├── project-b/              # プロジェクトB（Gmail & Sheets）
-│   ├── src/
-│   │   ├── email.ts        # Gmail機能
-│   │   ├── sheet.ts        # Spreadsheet機能
-│   │   └── functions/
-│   │       ├── email1.ts
-│   │       └── sheet1.ts
-│   ├── dist/
-│   │   ├── email.js
-│   │   └── sheet.js
-│   └── .clasp.json
+├── project-a/              # プロジェクトA
 │
-utils/                      # 共通ユーティリティ
-clients/                    # 共通クライアント
-└── build.js               # 共通ビルドスクリプト
+scripts/
+└── gas-manager.sh          # ビルド・デプロイコマンドの管理
+shared/                     # 共通処理を管理
+├── clients/                # 外部API処理
+└── utils/                  # 共通関数
 ```
 
 ## 🚀 使い方
+
+### プロジェクト一覧の確認
+
+```bash
+pnpm run list
+```
 
 ### ビルド
 
 ```bash
 # 特定プロジェクトのビルド
-pnpm run build:project-a
-pnpm run build:project-b
+pnpm run build sample-project
+pnpm run build project-a
 
 # 全プロジェクトのビルド
-pnpm run build:all
+pnpm run build all
 ```
 
-### デプロイ
+### プッシュ（GASへのアップロード）
+
+```bash
+# 特定プロジェクトのプッシュ
+pnpm run push sample-project
+pnpm run push project-a
+
+# 全プロジェクトのプッシュ
+pnpm run push all
+```
+
+### デプロイ（ビルド + プッシュ）
 
 ```bash
 # 特定プロジェクトのデプロイ
-pnpm run deploy:project-a
-pnpm run deploy:project-b
+pnpm run deploy sample-project
+pnpm run deploy project-a
 
 # 全プロジェクトのデプロイ
-pnpm run deploy:all
+pnpm run deploy all
 ```
 
-### プッシュのみ（ビルド済みの場合）
+### 直接スクリプト実行
 
 ```bash
-pnpm run push:project-a
-pnpm run push:project-b
+# シェルスクリプトを直接実行する場合
+./scripts/gas-manager.sh help
+./scripts/gas-manager.sh build sample-project
+./scripts/gas-manager.sh deploy all
 ```
 
 ## ⚙️ 新しいプロジェクトの追加
@@ -79,9 +88,23 @@ pnpm run push:project-b
 mkdir -p projects/project-c/src/functions projects/project-c/dist
 ```
 
-2. `.clasp.json`を作成
+2. `appsscript.json`を作成
 
-```json
+```bash
+cat > projects/project-c/dist/appsscript.json << 'EOF'
+{
+  "timeZone": "Asia/Tokyo",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
+}
+EOF
+```
+
+3. `.clasp.json`を作成
+
+```bash
+cat > projects/project-c/.clasp.json << 'EOF'
 {
   "scriptId": "YOUR_SCRIPT_ID_HERE",
   "rootDir": "dist",
@@ -91,24 +114,25 @@ mkdir -p projects/project-c/src/functions projects/project-c/dist
   "filePushOrder": [],
   "skipSubdirectories": false
 }
-```
-
-3. `package.json`にスクリプトを追加
-
-```json
-{
-  "scripts": {
-    "build:project-c": "node build.js project-c",
-    "push:project-c": "cd projects/project-c && clasp push",
-    "deploy:project-c": "pnpm run build:project-c && pnpm run push:project-c"
-  }
-}
+EOF
 ```
 
 4. TypeScript ファイルを作成
 
 - `projects/project-c/src/functions/`に個別機能
 - `projects/project-c/src/`にまとめファイル
+
+5. プロジェクトが自動認識されることを確認
+
+```bash
+pnpm run list
+```
+
+> **注意**:
+>
+> - `YOUR_SCRIPT_ID_HERE`を実際のGoogle Apps ScriptのスクリプトIDに置き換えてください
+> - 新しいプロジェクトを追加しても、`package.json`のscriptsセクションを変更する必要はありません
+> - `gas-manager.sh`が自動的にプロジェクトを検出します
 
 ## 📝 コード例
 
@@ -117,7 +141,7 @@ mkdir -p projects/project-c/src/functions projects/project-c/dist
 ```typescript
 // projects/project-a/src/functions/aaa1.ts
 export function aaa1Function(): void {
-  console.log("This is aaa1 function");
+  console.log('This is aaa1 function')
 }
 ```
 
@@ -125,10 +149,10 @@ export function aaa1Function(): void {
 
 ```typescript
 // projects/project-a/src/aaa.ts
-import { aaa1Function } from "./functions/aaa1";
+import { aaa1Function } from './functions/aaa1'
 
-declare const global: { [key: string]: any };
-global.aaa1Function = aaa1Function;
+declare const global: { [key: string]: unknown }
+global.aaa1Function = aaa1Function
 ```
 
 ## 📚 共通ライブラリ
@@ -146,6 +170,25 @@ global.aaa1Function = aaa1Function;
 - **プロジェクト分離**: 各 GAS プロジェクトが独立して管理される
 - **ファイル分割**: 機能ごとにファイルを分けて GAS の行数制限を回避
 - **共通ライブラリ**: utils/clients/で再利用可能なコード管理
-- **共通ビルド**: 統一されたビルドシステム
+- **統一されたコマンド**: シェルスクリプトによる一元管理でコマンド体系を統一
+- **自動プロジェクト検出**: 新しいプロジェクトが自動的に認識される
+- **色付きメッセージ**: 成功/エラー/警告が視覚的に分かりやすい
 - **型安全**: TypeScript による型チェック
 - **効率的デプロイ**: プロジェクト別・一括デプロイ対応
+
+## 🔧 トラブルシューティング
+
+### エラー: プロジェクトの .clasp.json が見つかりません
+
+```bash
+cd projects/your-project
+clasp create --type standalone
+```
+
+### プロジェクトが一覧に表示されない
+
+`projects/`ディレクトリ直下にプロジェクトフォルダが配置されているか確認してください。
+
+### ビルドエラーが発生する
+
+プロジェクトの`src/`ディレクトリに`.ts`ファイルが存在するか確認してください。
