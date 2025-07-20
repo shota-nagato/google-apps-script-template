@@ -5,14 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build:project-a": "node build.js project-a",
-    "build:project-b": "node build.js project-b",
-    "build:all": "pnpm run build:project-a && pnpm run build:project-b",
-    "push:project-a": "cd projects/project-a && clasp push",
-    "push:project-b": "cd projects/project-b && clasp push",
-    "deploy:project-a": "pnpm run build:project-a && pnpm run push:project-a",
-    "deploy:project-b": "pnpm run build:project-b && pnpm run push:project-b",
-    "deploy:all": "pnpm run build:all && pnpm run push:project-a && pnpm run push:project-b"
+    "gas": "./scripts/gas-manager.sh",
+    "build": "./scripts/gas-manager.sh build",
+    "push": "./scripts/gas-manager.sh push",
+    "deploy": "./scripts/gas-manager.sh deploy",
+    "list": "./scripts/gas-manager.sh list"
   },
   "keywords": [],
   "author": "",
