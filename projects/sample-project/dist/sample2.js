@@ -1,6 +1,6 @@
 var global = this;
 // projects/sample-project/src/sample2.ts
-function function1() {
+function function2() {
 }
 "use strict";
 (() => {
@@ -24,5 +24,5 @@ function function1() {
   }
 
   // projects/sample-project/src/sample2.ts
-  global.function1 = function2;
+  global.function2 = function2;
 })();
