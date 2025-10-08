@@ -4,4 +4,4 @@ declare const global: {
   [key: string]: unknown
 }
 
-global.function1 = function2
+global.function2 = function2
