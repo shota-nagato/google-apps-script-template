@@ -10,9 +10,11 @@ export class SpreadsheetClient {
    * @param {string} [id]
    */
   constructor(id: string) {
-    this.spreadsheet = SpreadsheetApp.openById(id)
-
-    if (!this.spreadsheet) throw new Error('Spreadsheetが見つかりません。')
+    try {
+      this.spreadsheet = SpreadsheetApp.openById(id)
+    } catch {
+      throw new Error('Spreadsheetが見つかりません。')
+    }
   }
 
   /**
